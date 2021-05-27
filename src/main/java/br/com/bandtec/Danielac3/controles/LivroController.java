@@ -1,29 +1,25 @@
 package br.com.bandtec.Danielac3.controles;
 
+import br.com.bandtec.Danielac3.agendamentos.AgendamentoServices;
+import br.com.bandtec.Danielac3.dominios.Arquivo;
 import br.com.bandtec.Danielac3.dominios.Autor;
 import br.com.bandtec.Danielac3.dominios.Livro;
-import br.com.bandtec.Danielac3.dominios.PilhaObj;
-import br.com.bandtec.Danielac3.dominios.Processo;
+import br.com.bandtec.Danielac3.auxiliares.PilhaObj;
+import br.com.bandtec.Danielac3.auxiliares.Processo;
 import br.com.bandtec.Danielac3.repositorios.AutorRepository;
 import br.com.bandtec.Danielac3.repositorios.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/livros")
@@ -34,7 +30,7 @@ public class LivroController {
     @Autowired
     private AutorRepository autorRepository;
 
-    private PilhaObj<Processo> pilhaObj = new PilhaObj(20);
+    private PilhaObj<Processo> pilhaObj = new PilhaObj(50);
 
     @GetMapping
     public ResponseEntity getLivros() {
@@ -84,53 +80,4 @@ public class LivroController {
         }
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity criarAnexo(@RequestParam MultipartFile arquivo) throws IOException {
-        if (arquivo.getContentType().equals("text/plain")) {
-            String[] conteudo = new String(arquivo.getBytes()).split(";|\\r\\n");
-            if (!leArquivoRecursivo(conteudo, 0)) {
-                return ResponseEntity.status(400).body("Autor não encontrado");
-            }
-            return ResponseEntity.status(201).body("Livros adicionados");
-        } else {
-            return ResponseEntity.status(204).body("Não é um arquivo TXT");
-        }
-
-    }
-
-    private boolean leArquivoRecursivo(String[] conteudo, int i) {
-        if (conteudo[i].startsWith("01")) {
-            return true;
-        }else if (conteudo[i].startsWith("02")) {
-            Livro livro = new Livro();
-            String linha = conteudo[i];
-
-            livro.setTitulo(linha.substring(2, 42).trim());
-            livro.setPreco(Double.parseDouble(linha.substring(42, 49).replace(",", ".")));
-            String nome = linha.substring(49, 89).trim();
-            livro.setAutor(autorRepository.findByNome(nome)
-                    .get());
-            postLivro(livro);
-            return leArquivoRecursivo(conteudo, i + 1);
-        }
-        else if  (conteudo[i].startsWith("03")){
-            String linha = conteudo[i];
-            if(autorRepository.findByNome(linha.substring(2,41)).isPresent()){
-                return leArquivoRecursivo(conteudo, i + 1);
-            }
-            Autor autor = new Autor();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate date = LocalDate.parse(linha.substring(42,52), formatter);
-            autor.setDataDeNascimento(date);
-            autor.setNome(linha.substring(2,42).trim());
-            autorRepository.save(autor);
-            return leArquivoRecursivo(conteudo, i + 1);
-
-        }
-        else {
-            return leArquivoRecursivo(conteudo, i + 1);
-        }
-
-
-    }
 }

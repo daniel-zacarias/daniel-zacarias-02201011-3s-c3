@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Entity
 public class Livro {
@@ -17,6 +18,8 @@ public class Livro {
 
     @DecimalMin("0.00")
     private Double preco;
+
+    LocalDate dataDeLancamento;
 
     @ManyToOne
     private Autor autor;
@@ -53,5 +56,11 @@ public class Livro {
         this.autor = autor;
     }
 
+    public LocalDate getDataDeLancamento() {
+        return dataDeLancamento;
+    }
 
+    public void setDataDeLancamento(LocalDate dataDeLancamento) {
+        this.dataDeLancamento = dataDeLancamento;
+    }
 }

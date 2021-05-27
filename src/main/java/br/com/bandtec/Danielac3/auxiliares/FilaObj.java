@@ -1,4 +1,4 @@
-package br.com.bandtec.Danielac3.dominios;
+package br.com.bandtec.Danielac3.auxiliares;
 
 public class FilaObj<T> {
     private int tamanho;

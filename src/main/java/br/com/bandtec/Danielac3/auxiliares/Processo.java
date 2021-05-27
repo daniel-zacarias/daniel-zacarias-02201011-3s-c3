@@ -1,4 +1,4 @@
-package br.com.bandtec.Danielac3.dominios;
+package br.com.bandtec.Danielac3.auxiliares;
 
 public class Processo <T>{
     private String protocolo;

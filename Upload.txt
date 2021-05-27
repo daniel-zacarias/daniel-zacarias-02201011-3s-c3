@@ -1,4 +1,5 @@
 00LIVRO0220101123-05-202114:11:1001
 03J. K. Rownling                          11/11/1950
-02A Volta dos que não foram               0100,00J. K. Rownling                          
+02A Volta dos que não foram               0100,0011/11/2002J. K. Rownling                          
+02Harry Potter                            0100,0011/11/2002J. K. Rownling                          
 01002
