@@ -39,8 +39,6 @@ class LivroControllerTest {
     @MockBean
     AutorRepository autorRepository;
 
-    @Spy
-    PilhaObj pilhaObj = new PilhaObj(50);
 
 
 
@@ -146,7 +144,7 @@ class LivroControllerTest {
 
         ResponseEntity<List<Livro>> resposta = controller.deleteLivro(livro.getId());
 
-        assertEquals(204, resposta.getStatusCodeValue());
+        assertEquals(201, resposta.getStatusCodeValue());
         assertEquals("Livro não encontrado",resposta.getBody());
     }
 
@@ -165,7 +163,7 @@ class LivroControllerTest {
     void getDesfazerPost() {
 
 
-        ResponseEntity<List<Livro>> resposta = controller.getDesfazer();
+        ResponseEntity<List<Livro>> resposta = controller.postDesfazer();
 
         assertEquals(201, resposta.getStatusCodeValue());
         assertEquals("O Livro foi deletado",resposta.getBody());
@@ -178,9 +176,9 @@ class LivroControllerTest {
     void getDesfazerVazio() {
 
         //PilhaObj pilhaObj = Mockito.mock(PilhaObj.class);
-        Mockito.when(pilhaObj.isEmpty()).thenReturn(true);
+        //Mockito.when(pilhaObj.isEmpty()).thenReturn(true);
 
-        ResponseEntity<List<Livro>> resposta = controller.getDesfazer();
+        ResponseEntity<List<Livro>> resposta = controller.postDesfazer();
 
         assertEquals(201, resposta.getStatusCodeValue());
         assertEquals("Autor inserido com sucesso",resposta.getBody());

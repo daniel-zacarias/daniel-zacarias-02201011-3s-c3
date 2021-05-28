@@ -66,7 +66,7 @@ public class LivroController {
     }
 
     @PostMapping("/desfazer")
-    public ResponseEntity getDesfazer() {
+    public ResponseEntity postDesfazer() {
         if (pilhaObj.isEmpty()) {
             return ResponseEntity.status(400).body("Pilha vazia!");
         }

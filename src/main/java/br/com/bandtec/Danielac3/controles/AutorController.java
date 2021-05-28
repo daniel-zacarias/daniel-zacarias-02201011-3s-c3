@@ -50,7 +50,7 @@ public class AutorController {
             repository.save(autor);
             return ResponseEntity.status(200).body(autorOptional.get());
         }else{
-            return ResponseEntity.status(204).body("Autor não encontrado");
+            return ResponseEntity.status(400).body("Autor não encontrado");
         }
     }
 
@@ -62,7 +62,7 @@ public class AutorController {
         Processo processo = pilhaObj.pop();
         if (processo.getProtocolo().equals("POST")) {
             repository.delete((Autor)processo.getObjeto());
-            return ResponseEntity.status(201).body("Retirando ");
+            return ResponseEntity.status(201).body("Retirando Autor");
         } else {
             repository.save(((Autor) processo.getObjeto()));
             return ResponseEntity.status(200).body("Desfeita a alteração");
