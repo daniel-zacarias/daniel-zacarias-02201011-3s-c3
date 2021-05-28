@@ -62,7 +62,7 @@ public class AutorController {
         Processo processo = pilhaObj.pop();
         if (processo.getProtocolo().equals("POST")) {
             repository.delete((Autor)processo.getObjeto());
-            return ResponseEntity.status(201).body("Retirando autor");
+            return ResponseEntity.status(201).body("Retirando ");
         } else {
             repository.save(((Autor) processo.getObjeto()));
             return ResponseEntity.status(200).body("Desfeita a alteração");

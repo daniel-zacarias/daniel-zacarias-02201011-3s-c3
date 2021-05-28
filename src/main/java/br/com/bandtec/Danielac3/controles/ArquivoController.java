@@ -33,7 +33,7 @@ public class ArquivoController {
             return ResponseEntity.status(200).body("Espere até o acabar o processamento o seu protocolo é " +
                     upload.getUuid());
         } else {
-            return ResponseEntity.status(204).body("Não é um arquivo TXT");
+            return ResponseEntity.status(400).body("Não é um arquivo TXT");
         }
     }
 
@@ -44,7 +44,7 @@ public class ArquivoController {
             return ResponseEntity.status(200).body(arquivo.get().getResultado());
         }
 
-        return ResponseEntity.status(400).body(arquivo.get().getResultado());
+        return ResponseEntity.status(400).body("Ainda não está pronto");
 
     }
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.jta.UserTransactionAdapter;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -31,10 +32,9 @@ public class AgendamentoServices {
     @Autowired
     private ArquivoRepository arquivoRepository;
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(initialDelay = 1000, fixedRate = 10000)
     public ResponseEntity lerArquivo() {
         if(filaUUID.isEmpty()){
-            System.out.println("Não existe");
             return ResponseEntity.status(204).build();
         }
         String uuid = filaUUID.pool();
